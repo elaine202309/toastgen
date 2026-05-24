@@ -82,20 +82,14 @@ To the happy couple —${wishPart} Cheers!`;
 import { buildSystemPrompt, buildUserMessage } from './buildPrompt';
 
 async function callDeepSeek(data: FormData): Promise<string> {
-  const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
-  if (!apiKey) throw new Error('API key not configured. Using demo mode. Set VITE_DEEPSEEK_API_KEY in .env');
-
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   const systemPrompt = buildSystemPrompt(data);
   const userMessage = buildUserMessage(data);
 
-  const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+  const response = await fetch(`${apiUrl}/api/generate`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'deepseek-chat',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userMessage },
@@ -107,12 +101,13 @@ async function callDeepSeek(data: FormData): Promise<string> {
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`DeepSeek API error (${response.status}): ${err}`);
+    throw new Error(`API error (${response.status}): ${err}`);
   }
 
   const json = await response.json();
+  if (json.error) throw new Error(json.error);
   const speech = json.choices?.[0]?.message?.content;
-  if (!speech) throw new Error('Empty response from DeepSeek API');
+  if (!speech) throw new Error('Empty response from API');
   return speech.trim();
 }
 
