@@ -23,13 +23,13 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     return res.status(500).json({ error: 'API key not configured on server' });
   }
 
-  const user = findUserById(req.userId);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  if (user.credits < 1) {
-    return res.status(402).json({ error: 'No credits remaining. Please purchase more to continue.' });
-  }
-
   try {
+    const user = await findUserById(req.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (user.credits < 1) {
+      return res.status(402).json({ error: 'No credits remaining. Please purchase more to continue.' });
+    }
+
     const response = await fetch(DEEPSEEK_URL, {
       method: 'POST',
       headers: {
@@ -52,11 +52,8 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     const data = await response.json();
     const speechText = data.choices?.[0]?.message?.content || '';
 
-    // Deduct credit
-    deductCredit(req.userId);
-
-    // Log generation with full speech
-    logGeneration(req.userId, {
+    await deductCredit(req.userId);
+    await logGeneration(req.userId, {
       role: req.body.role,
       occasion: req.body.occasion,
       tone: req.body.tone,
@@ -64,7 +61,7 @@ app.post('/api/generate', requireAuth, async (req, res) => {
       names: req.body.names || null,
     }, speechText);
 
-    const remaining = getCredits(req.userId);
+    const remaining = await getCredits(req.userId);
     data.credits_remaining = remaining;
     res.json(data);
   } catch (e) {
@@ -73,22 +70,32 @@ app.post('/api/generate', requireAuth, async (req, res) => {
 });
 
 // Get user credits
-app.get('/api/credits', requireAuth, (req, res) => {
-  res.json({ credits: getCredits(req.userId) });
+app.get('/api/credits', requireAuth, async (req, res) => {
+  try {
+    const credits = await getCredits(req.userId);
+    res.json({ credits });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // Get generation history
-app.get('/api/generations', requireAuth, (req, res) => {
-  const items = getGenerations(req.userId).map(g => ({
-    id: g.id,
-    role: g.role,
-    occasion: g.occasion,
-    tone: g.tone,
-    names: g.names,
-    speech: g.speech,
-    created_at: g.created_at,
-  }));
-  res.json(items);
+app.get('/api/generations', requireAuth, async (req, res) => {
+  try {
+    const rows = await getGenerations(req.userId);
+    const items = rows.map(g => ({
+      id: g.id,
+      role: g.role,
+      occasion: g.occasion,
+      tone: g.tone,
+      names: g.names,
+      speech: g.speech,
+      created_at: g.created_at,
+    }));
+    res.json(items);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 const port = process.env.PORT || 3000;
