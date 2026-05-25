@@ -53,6 +53,9 @@ export default function Navbar() {
                     <div className="px-4 py-2 text-xs text-charcoal-light border-b border-blush-dark/10">
                       {user.credits} speech{user.credits !== 1 ? 'es' : ''} remaining
                     </div>
+                    <Link to="/history" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 text-sm text-charcoal hover:bg-blush/20 no-underline">
+                      My Speeches
+                    </Link>
                     <Link to="/pricing" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 text-sm text-charcoal hover:bg-blush/20 no-underline">
                       Buy more credits
                     </Link>

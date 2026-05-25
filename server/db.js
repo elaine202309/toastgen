@@ -60,15 +60,26 @@ export function addCredits(id, amount) {
   }
 }
 
-export function logGeneration(userId, data) {
+export function logGeneration(userId, data, speechText) {
   const db = read();
   db.generations.push({
     id: db.generations.length + 1,
     user_id: userId,
     role: data.role || null,
+    occasion: data.occasion || null,
     tone: data.tone || null,
     length: data.length || null,
+    names: data.names || null,
+    speech: speechText || null,
     created_at: new Date().toISOString(),
   });
   write(db);
+}
+
+export function getGenerations(userId) {
+  const db = read();
+  return db.generations
+    .filter(g => g.user_id === userId)
+    .sort((a, b) => b.id - a.id)
+    .slice(0, 50); // last 50
 }

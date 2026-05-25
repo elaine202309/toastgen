@@ -24,6 +24,7 @@ async function callDeepSeek(data: FormData): Promise<{ speech: string; creditsRe
       role: data.role,
       occasion: data.occasion,
       tone: data.tone,
+      names: `${data.groomName} & ${data.brideName}`,
       length: data.length,
     }),
   });

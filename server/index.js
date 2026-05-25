@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter, { requireAuth } from './auth.js';
-import { findUserById, getCredits, deductCredit, logGeneration } from './db.js';
+import { findUserById, getCredits, deductCredit, logGeneration, getGenerations } from './db.js';
 
 const app = express();
 app.use(cors());
@@ -49,18 +49,21 @@ app.post('/api/generate', requireAuth, async (req, res) => {
       return res.status(response.status).json({ error: err });
     }
 
+    const data = await response.json();
+    const speechText = data.choices?.[0]?.message?.content || '';
+
     // Deduct credit
     deductCredit(req.userId);
 
-    // Log generation
+    // Log generation with full speech
     logGeneration(req.userId, {
       role: req.body.role,
       occasion: req.body.occasion,
       tone: req.body.tone,
       length: req.body.length,
-    });
+      names: req.body.names || null,
+    }, speechText);
 
-    const data = await response.json();
     const remaining = getCredits(req.userId);
     data.credits_remaining = remaining;
     res.json(data);
@@ -72,6 +75,20 @@ app.post('/api/generate', requireAuth, async (req, res) => {
 // Get user credits
 app.get('/api/credits', requireAuth, (req, res) => {
   res.json({ credits: getCredits(req.userId) });
+});
+
+// Get generation history
+app.get('/api/generations', requireAuth, (req, res) => {
+  const items = getGenerations(req.userId).map(g => ({
+    id: g.id,
+    role: g.role,
+    occasion: g.occasion,
+    tone: g.tone,
+    names: g.names,
+    speech: g.speech,
+    created_at: g.created_at,
+  }));
+  res.json(items);
 });
 
 const port = process.env.PORT || 3000;
