@@ -28,10 +28,15 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
   const [futureWish, setFutureWish] = useState('');
   const [thingsToAvoid, setThingsToAvoid] = useState('');
   const [length, setLength] = useState('medium');
+  const [showValidation, setShowValidation] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!groomName.trim() || !brideName.trim() || !yourName.trim()) return;
+    if (!groomName.trim() || !brideName.trim() || !yourName.trim()) {
+      setShowValidation(true);
+      return;
+    }
+    setShowValidation(false);
 
     onSubmit({
       role: selectedRole,
@@ -304,6 +309,13 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
             ))}
           </div>
         </div>
+
+        {/* Validation hint */}
+        {showValidation && !isValid && (
+          <p className="text-sm text-coral text-center -mb-2">
+            Please fill in all required fields (*) — Groom's Name, Bride's Name, and Your Name.
+          </p>
+        )}
 
         {/* Submit */}
         <button
