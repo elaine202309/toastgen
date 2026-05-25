@@ -65,11 +65,11 @@ export default function HomePage() {
         isGenerating={isGenerating}
         onSubmit={handleSubmit}
       />
-      {generatedSpeech && formData && (
+      {(generatedSpeech || (error && formData)) && (
         <div ref={outputRef}>
           <SpeechOutput
-            speech={generatedSpeech}
-            formData={formData}
+            speech={generatedSpeech || ''}
+            formData={formData!}
             onRegenerate={handleRegenerate}
             isGenerating={isGenerating}
             error={error}
