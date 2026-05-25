@@ -57,19 +57,19 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#roles"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-coral to-champagne text-white text-lg font-semibold rounded-full hover:opacity-95 transition-all shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:-translate-y-0.5 no-underline"
+          <button
+            onClick={() => document.getElementById('roles')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-coral to-champagne text-white text-lg font-semibold rounded-full hover:opacity-95 transition-all shadow-lg shadow-coral/20 hover:shadow-xl hover:shadow-coral/30 hover:-translate-y-0.5 cursor-pointer border-none"
           >
             <Sparkles className="w-5 h-5" />
             Start Your Speech
-          </a>
-          <a
-            href="#how-it-works"
-            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-charcoal/10 text-charcoal text-lg font-medium rounded-full hover:border-champagne/40 hover:bg-white/60 transition-all no-underline"
+          </button>
+          <button
+            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center gap-2 px-8 py-4 border-2 border-charcoal/10 text-charcoal text-lg font-medium rounded-full hover:border-champagne/40 hover:bg-white/60 transition-all cursor-pointer bg-transparent"
           >
             How It Works
-          </a>
+          </button>
         </div>
 
         {/* Trust badges */}

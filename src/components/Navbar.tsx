@@ -35,7 +35,6 @@ export default function Navbar() {
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
             <button onClick={() => scrollTo('how-it-works')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors bg-transparent border-none cursor-pointer">How It Works</button>
-            <button onClick={() => scrollTo('roles')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors bg-transparent border-none cursor-pointer">Speeches</button>
             <Link to="/pricing" className="text-sm text-charcoal-light hover:text-charcoal transition-colors no-underline">Pricing</Link>
             <button onClick={() => scrollTo('faq')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors bg-transparent border-none cursor-pointer">FAQ</button>
 
@@ -93,7 +92,6 @@ export default function Navbar() {
         {open && (
           <div className="md:hidden pb-4 border-t border-blush-dark/20 pt-3 flex flex-col gap-3">
             <button onClick={() => scrollTo('how-it-works')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors px-2 bg-transparent border-none cursor-pointer text-left">How It Works</button>
-            <button onClick={() => scrollTo('roles')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors px-2 bg-transparent border-none cursor-pointer text-left">Speeches</button>
             <Link to="/pricing" onClick={() => setOpen(false)} className="text-sm text-charcoal-light hover:text-charcoal transition-colors px-2 no-underline">Pricing</Link>
             <button onClick={() => scrollTo('faq')} className="text-sm text-charcoal-light hover:text-charcoal transition-colors px-2 bg-transparent border-none cursor-pointer text-left">FAQ</button>
 
