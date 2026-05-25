@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToastGen - AI Wedding Speech Generator</title>
     <meta name="description" content="Craft the perfect wedding speech in minutes with AI. Personalized toasts for best man, maid of honor, parents, and more." />
-    <script type="module" crossorigin src="/assets/index-Dt-wHZef.js"></script>
+    <script type="module" crossorigin src="/assets/index-2WEirlSb.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-0qtuFC-g.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
+    <script>
+      // Handle SPA redirect from 404.html (GitHub Pages SPA support)
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.pathname) {
+          history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
   </body>
 </html>
