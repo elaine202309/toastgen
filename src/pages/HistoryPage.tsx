@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Copy, Check, ArrowLeft, Sparkles } from 'lucide-react';
+import { Clock, Copy, Check, ArrowLeft, Sparkles, Download } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
@@ -37,6 +37,17 @@ export default function HistoryPage() {
     await navigator.clipboard.writeText(text);
     setCopied(id);
     setTimeout(() => setCopied(null), 2000);
+  };
+
+  const handleDownload = (r: Record) => {
+    const filename = `${r.names || 'speech'} - ${r.role || 'toast'}.txt`.replace(/[^a-zA-Z0-9 \-_\.]/g, '');
+    const blob = new Blob([r.speech], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const occLabel = (o: string) =>
@@ -87,13 +98,22 @@ export default function HistoryPage() {
                 <div className="prose text-charcoal-light whitespace-pre-line text-sm leading-relaxed mb-4">
                   {r.speech}
                 </div>
-                <button
-                  onClick={() => handleCopy(r.speech, r.id)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-charcoal text-white text-xs font-medium rounded-full hover:bg-charcoal-light transition-colors cursor-pointer border-none"
-                >
-                  {copied === r.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  {copied === r.id ? 'Copied!' : 'Copy'}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleCopy(r.speech, r.id)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-charcoal text-white text-xs font-medium rounded-full hover:bg-charcoal-light transition-colors cursor-pointer border-none"
+                  >
+                    {copied === r.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied === r.id ? 'Copied!' : 'Copy'}
+                  </button>
+                  <button
+                    onClick={() => handleDownload(r)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 border border-charcoal/15 text-charcoal text-xs font-medium rounded-full hover:bg-ivory transition-colors cursor-pointer bg-transparent"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download
+                  </button>
+                </div>
               </div>
             )}
           </div>
