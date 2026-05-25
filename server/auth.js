@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
-import db from './db.js';
+import { createUser, findUserByEmail, findUserById } from './db.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'toastgen-dev-secret-change-in-production';
 const router = Router();
@@ -32,13 +32,13 @@ router.post('/auth/register', (req, res) => {
     return res.status(400).json({ error: 'Password must be at least 6 characters' });
   }
 
-  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase().trim());
+  const existing = findUserByEmail(email);
   if (existing) {
     return res.status(409).json({ error: 'An account with this email already exists' });
   }
 
   const hash = bcrypt.hashSync(password, 10);
-  const result = db.prepare('INSERT INTO users (email, password_hash, credits) VALUES (?, ?, 1)').run(email.toLowerCase().trim(), hash);
+  const result = createUser(email.toLowerCase().trim(), hash);
 
   const token = jwt.sign({ userId: result.lastInsertRowid }, JWT_SECRET, { expiresIn: '30d' });
   res.json({ token, credits: 1, email: email.toLowerCase().trim() });
@@ -51,7 +51,7 @@ router.post('/auth/login', (req, res) => {
     return res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const user = db.prepare('SELECT id, email, password_hash, credits FROM users WHERE email = ?').get(email.toLowerCase().trim());
+  const user = findUserByEmail(email);
   if (!user) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
@@ -66,9 +66,9 @@ router.post('/auth/login', (req, res) => {
 
 // GET /api/auth/me
 router.get('/auth/me', requireAuth, (req, res) => {
-  const user = db.prepare('SELECT id, email, credits, created_at FROM users WHERE id = ?').get(req.userId);
+  const user = findUserById(req.userId);
   if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json(user);
+  res.json({ id: user.id, email: user.email, credits: user.credits, created_at: user.created_at });
 });
 
 export default router;

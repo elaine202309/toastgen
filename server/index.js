@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter, { requireAuth } from './auth.js';
-import db from './db.js';
+import { findUserById, getCredits, deductCredit, logGeneration } from './db.js';
 
 const app = express();
 app.use(cors());
@@ -23,8 +23,7 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     return res.status(500).json({ error: 'API key not configured on server' });
   }
 
-  // Check credits
-  const user = db.prepare('SELECT credits FROM users WHERE id = ?').get(req.userId);
+  const user = findUserById(req.userId);
   if (!user) return res.status(404).json({ error: 'User not found' });
   if (user.credits < 1) {
     return res.status(402).json({ error: 'No credits remaining. Please purchase more to continue.' });
@@ -51,19 +50,18 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     }
 
     // Deduct credit
-    db.prepare('UPDATE users SET credits = credits - 1 WHERE id = ?').run(req.userId);
+    deductCredit(req.userId);
 
     // Log generation
-    db.prepare('INSERT INTO generations (user_id, role, tone, length) VALUES (?, ?, ?, ?)').run(
-      req.userId,
-      req.body.role || null,
-      req.body.tone || null,
-      req.body.length || null
-    );
+    logGeneration(req.userId, {
+      role: req.body.role,
+      tone: req.body.tone,
+      length: req.body.length,
+    });
 
     const data = await response.json();
-    const remaining = db.prepare('SELECT credits FROM users WHERE id = ?').get(req.userId);
-    data.credits_remaining = remaining.credits;
+    const remaining = getCredits(req.userId);
+    data.credits_remaining = remaining;
     res.json(data);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -72,9 +70,7 @@ app.post('/api/generate', requireAuth, async (req, res) => {
 
 // Get user credits
 app.get('/api/credits', requireAuth, (req, res) => {
-  const user = db.prepare('SELECT credits FROM users WHERE id = ?').get(req.userId);
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({ credits: user.credits });
+  res.json({ credits: getCredits(req.userId) });
 });
 
 const port = process.env.PORT || 3000;
