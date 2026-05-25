@@ -3,7 +3,7 @@ import type { FormData } from '../data/roles';
 import { buildSystemPrompt, buildUserMessage } from './buildPrompt';
 
 async function callDeepSeek(data: FormData): Promise<{ speech: string; creditsRemaining: number }> {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const apiUrl = import.meta.env.VITE_API_URL || '';
   const token = localStorage.getItem('toastgen_token');
   const systemPrompt = buildSystemPrompt(data);
   const userMessage = buildUserMessage(data);
