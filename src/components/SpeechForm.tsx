@@ -71,21 +71,21 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
         {/* Occasion Selector */}
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20">
           <h3 className="text-lg font-bold font-heading text-charcoal mb-4">What's the occasion?</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-            {[['wedding', '🥂', 'Wedding Reception'], ['rehearsal', '🌙', 'Rehearsal Dinner'], ['engagement', '💍', 'Engagement Party'], ['anniversary', '💝', 'Anniversary'], ['other', '🎉', 'Other Celebration']].map(([id, emoji, label]) => {
+          <div className="flex flex-wrap gap-2.5">
+            {[['wedding', '🥂', 'Wedding'], ['rehearsal', '🌙', 'Rehearsal'], ['engagement', '💍', 'Engagement'], ['anniversary', '💝', 'Anniversary'], ['other', '🎉', 'Other']].map(([id, emoji, label]) => {
               const isSelected = occasion === id;
               return (
                 <button
                   key={id}
                   type="button"
                   onClick={() => setOccasion(id)}
-                  className={`flex items-center gap-2.5 px-4 py-3 rounded-xl transition-all cursor-pointer border ${
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all cursor-pointer border whitespace-nowrap ${
                     isSelected
                       ? 'bg-champagne text-white border-champagne shadow-md'
                       : 'bg-ivory border-charcoal/10 hover:border-champagne/40 hover:bg-blush/20'
                   }`}
                 >
-                  <span className="text-lg">{emoji}</span>
+                  <span className="text-base">{emoji}</span>
                   <span className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-charcoal'}`}>{label}</span>
                 </button>
               );
