@@ -7,8 +7,7 @@ export function buildSystemPrompt(data: FormData): string {
   const wordCount = lengths.find(l => l.value === data.length)?.words || 500;
   const occasionLabel = data.occasion === 'rehearsal' ? 'rehearsal dinner' :
     data.occasion === 'engagement' ? 'engagement party' :
-    data.occasion === 'anniversary' ? 'anniversary celebration' :
-    data.occasion === 'other' ? 'special celebration' : 'wedding reception';
+    data.occasion === 'anniversary' ? 'anniversary celebration' : 'wedding reception';
 
   // Detect how much detail the user provided
   const detailFields = [data.firstMet, data.funniestMemory, data.touchingMemory, data.perfectMatch, data.threeWords];

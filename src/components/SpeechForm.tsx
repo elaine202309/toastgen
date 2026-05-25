@@ -72,7 +72,7 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20">
           <h3 className="text-lg font-bold font-heading text-charcoal mb-4">What's the occasion?</h3>
           <div className="flex flex-wrap gap-2.5">
-            {[['wedding', '🥂', 'Wedding'], ['rehearsal', '🌙', 'Rehearsal'], ['engagement', '💍', 'Engagement'], ['anniversary', '💝', 'Anniversary'], ['other', '🎉', 'Other']].map(([id, emoji, label]) => {
+            {[['wedding', '🥂', 'Wedding'], ['rehearsal', '🌙', 'Rehearsal'], ['engagement', '💍', 'Engagement'], ['anniversary', '💝', 'Anniversary']].map(([id, emoji, label]) => {
               const isSelected = occasion === id;
               return (
                 <button

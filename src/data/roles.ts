@@ -73,7 +73,6 @@ export const occasions = [
   { id: 'rehearsal', label: 'Rehearsal Dinner', description: 'The intimate dinner the night before' },
   { id: 'engagement', label: 'Engagement Party', description: 'Celebrating the proposal and upcoming marriage' },
   { id: 'anniversary', label: 'Anniversary', description: 'Honoring years of marriage' },
-  { id: 'other', label: 'Other Celebration', description: 'Any heartfelt occasion worth a toast' },
 ];
 
 export const tones = [
