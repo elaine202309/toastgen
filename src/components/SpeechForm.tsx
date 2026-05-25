@@ -70,9 +70,8 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
 
         {/* Occasion Selector */}
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20">
-          <h3 className="text-lg font-bold font-heading text-charcoal mb-1">What's the occasion?</h3>
-          <p className="text-sm text-charcoal-light/50 mb-5">Choose the event type — we'll adapt the speech style accordingly.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <h3 className="text-lg font-bold font-heading text-charcoal mb-4">What's the occasion?</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
             {occasions.map((occ) => {
               const OccIcon = occ.id === 'anniversary' ? Clock : occ.id === 'other' ? Star : occ.id === 'rehearsal' ? Moon : occ.id === 'engagement' ? Heart : GlassWater;
               const isSelected = occasion === occ.id;
@@ -81,18 +80,14 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
                   key={occ.id}
                   type="button"
                   onClick={() => setOccasion(occ.id)}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl transition-all cursor-pointer border ${
+                  className={`flex items-center gap-2.5 px-4 py-3 rounded-xl transition-all cursor-pointer border ${
                     isSelected
-                      ? 'bg-champagne text-white border-champagne shadow-lg shadow-champagne/20 -translate-y-0.5'
-                      : 'bg-ivory text-charcoal-light border-charcoal/10 hover:border-champagne/40 hover:bg-blush/30'
+                      ? 'bg-champagne text-white border-champagne shadow-md'
+                      : 'bg-ivory text-charcoal border-charcoal/10 hover:border-champagne/40 hover:bg-blush/20'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-white/20' : 'bg-blush-dark/40'
-                  }`}>
-                    <OccIcon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-champagne'}`} />
-                  </div>
-                  <span className={`text-sm font-semibold leading-tight ${isSelected ? 'text-white' : 'text-charcoal'}`}>{occ.label}</span>
+                  <OccIcon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-champagne'}`} />
+                  <span className="text-sm font-semibold">{occ.label}</span>
                 </button>
               );
             })}
