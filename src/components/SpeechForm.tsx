@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
 import ToneSelector from './ToneSelector';
 import type { FormData } from '../data/roles';
-import { roles, lengths, relationships, knownYearsOptions } from '../data/roles';
+import { roles, lengths, relationships, knownYearsOptions, occasions } from '../data/roles';
 
 interface Props {
   selectedRole: string;
@@ -14,6 +14,7 @@ interface Props {
 
 export default function SpeechForm({ selectedRole, selectedTone, onToneChange, isGenerating, onSubmit }: Props) {
   const role = roles.find(r => r.id === selectedRole);
+  const [occasion, setOccasion] = useState('wedding');
   const [groomName, setGroomName] = useState('');
   const [brideName, setBrideName] = useState('');
   const [yourName, setYourName] = useState('');
@@ -34,6 +35,7 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
 
     onSubmit({
       role: selectedRole,
+      occasion,
       tone: selectedTone,
       groomName: groomName.trim(),
       brideName: brideName.trim(),
@@ -65,6 +67,28 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+
+        {/* Occasion Selector */}
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20">
+          <h3 className="text-lg font-bold font-heading text-charcoal mb-4">What's the occasion?</h3>
+          <div className="flex flex-wrap gap-2">
+            {occasions.map((occ) => (
+              <button
+                key={occ.id}
+                type="button"
+                onClick={() => setOccasion(occ.id)}
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer border ${
+                  occasion === occ.id
+                    ? 'bg-champagne text-white border-champagne shadow-md'
+                    : 'bg-ivory text-charcoal-light border-charcoal/10 hover:border-champagne/50'
+                }`}
+              >
+                <div className="font-semibold">{occ.label}</div>
+                <div className={`text-xs mt-0.5 ${occasion === occ.id ? 'text-white/70' : 'text-charcoal-light/50'}`}>{occ.description}</div>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Step 1: Who's Getting Married */}
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20 space-y-4">

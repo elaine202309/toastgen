@@ -22,6 +22,7 @@ async function callDeepSeek(data: FormData): Promise<{ speech: string; creditsRe
       max_tokens: 1200,
       temperature: 0.85,
       role: data.role,
+      occasion: data.occasion,
       tone: data.tone,
       length: data.length,
     }),

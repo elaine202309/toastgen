@@ -68,6 +68,14 @@ export const roles: Role[] = [
   },
 ];
 
+export const occasions = [
+  { id: 'wedding', label: 'Wedding Reception', description: 'The main celebration with all guests' },
+  { id: 'rehearsal', label: 'Rehearsal Dinner', description: 'The intimate dinner the night before' },
+  { id: 'engagement', label: 'Engagement Party', description: 'Celebrating the proposal and upcoming marriage' },
+  { id: 'anniversary', label: 'Anniversary', description: 'Honoring years of marriage' },
+  { id: 'other', label: 'Other Celebration', description: 'Any heartfelt occasion worth a toast' },
+];
+
 export const tones = [
   { id: 'heartfelt', label: 'Heartfelt', icon: Heart },
   { id: 'humorous', label: 'Humorous', icon: Smile },
@@ -84,6 +92,7 @@ export const lengths = [
 
 export interface FormData {
   role: string;
+  occasion: string;
   groomName: string;
   brideName: string;
   yourName: string;

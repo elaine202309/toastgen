@@ -55,6 +55,7 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     // Log generation
     logGeneration(req.userId, {
       role: req.body.role,
+      occasion: req.body.occasion,
       tone: req.body.tone,
       length: req.body.length,
     });

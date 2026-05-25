@@ -5,6 +5,10 @@ export function buildSystemPrompt(data: FormData): string {
   const role = roles.find(r => r.id === data.role);
   const roleLabel = role?.label || 'Guest';
   const wordCount = lengths.find(l => l.value === data.length)?.words || 500;
+  const occasionLabel = data.occasion === 'rehearsal' ? 'rehearsal dinner' :
+    data.occasion === 'engagement' ? 'engagement party' :
+    data.occasion === 'anniversary' ? 'anniversary celebration' :
+    data.occasion === 'other' ? 'special celebration' : 'wedding reception';
 
   // Detect how much detail the user provided
   const detailFields = [data.firstMet, data.funniestMemory, data.touchingMemory, data.perfectMatch, data.threeWords];
@@ -43,7 +47,7 @@ DO NOT:
   return `You are an expert wedding speech writer with years of experience crafting unforgettable toasts. You write speeches that are authentic, personal, and perfectly balanced — never cheesy, never generic.
 
 ## Your Task
-Write a ${roleLabel.toLowerCase()} wedding speech for ${data.groomName} and ${data.brideName}'s wedding.
+Write a ${roleLabel.toLowerCase()} speech for ${data.groomName} and ${data.brideName}'s ${occasionLabel}. This is NOT necessarily a wedding reception — it's a ${occasionLabel}. Adapt the speech accordingly: a rehearsal dinner speech is more intimate and casual, an engagement party speech looks forward to the wedding, an anniversary speech celebrates years together, etc.
 
 ## Speaker
 Name: ${data.yourName}
