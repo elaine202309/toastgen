@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Sparkles, Loader2, Clock, Star, Moon, Heart, GlassWater } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 import ToneSelector from './ToneSelector';
 import type { FormData } from '../data/roles';
-import { roles, lengths, relationships, knownYearsOptions, occasions } from '../data/roles';
+import { roles, lengths, relationships, knownYearsOptions } from '../data/roles';
 
 interface Props {
   selectedRole: string;
@@ -72,22 +72,21 @@ export default function SpeechForm({ selectedRole, selectedTone, onToneChange, i
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-blush-dark/20">
           <h3 className="text-lg font-bold font-heading text-charcoal mb-4">What's the occasion?</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-            {occasions.map((occ) => {
-              const OccIcon = occ.id === 'anniversary' ? Clock : occ.id === 'other' ? Star : occ.id === 'rehearsal' ? Moon : occ.id === 'engagement' ? Heart : GlassWater;
-              const isSelected = occasion === occ.id;
+            {[['wedding', '🥂', 'Wedding Reception'], ['rehearsal', '🌙', 'Rehearsal Dinner'], ['engagement', '💍', 'Engagement Party'], ['anniversary', '💝', 'Anniversary'], ['other', '🎉', 'Other Celebration']].map(([id, emoji, label]) => {
+              const isSelected = occasion === id;
               return (
                 <button
-                  key={occ.id}
+                  key={id}
                   type="button"
-                  onClick={() => setOccasion(occ.id)}
+                  onClick={() => setOccasion(id)}
                   className={`flex items-center gap-2.5 px-4 py-3 rounded-xl transition-all cursor-pointer border ${
                     isSelected
                       ? 'bg-champagne text-white border-champagne shadow-md'
-                      : 'bg-ivory text-charcoal border-charcoal/10 hover:border-champagne/40 hover:bg-blush/20'
+                      : 'bg-ivory border-charcoal/10 hover:border-champagne/40 hover:bg-blush/20'
                   }`}
                 >
-                  <OccIcon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-champagne'}`} />
-                  <span className="text-sm font-semibold">{occ.label}</span>
+                  <span className="text-lg">{emoji}</span>
+                  <span className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-charcoal'}`}>{label}</span>
                 </button>
               );
             })}
