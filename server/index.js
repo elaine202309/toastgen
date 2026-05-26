@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter, { requireAuth } from './auth.js';
+import adminRouter from './admin.js';
 import { findUserById, getCredits, deductCredit, logGeneration, getGenerations } from './db.js';
 
 const app = express();
@@ -16,6 +17,9 @@ app.get('/health', (_req, res) => {
 
 // Auth routes
 app.use('/api', authRouter);
+
+// Admin routes
+app.use('/admin', adminRouter);
 
 // Generate speech — requires auth + credits
 app.post('/api/generate', requireAuth, async (req, res) => {
