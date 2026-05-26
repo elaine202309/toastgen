@@ -33,7 +33,7 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-bold font-heading text-charcoal mt-8">5. Payments and Refunds</h2>
           <p>
-            Paid plans grant you a specific number of speech generations as described at the time of purchase. Credits do not expire. You may request a full refund within 14 days of purchase, provided that no speech generations from the purchased pack have been used. Once any speech has been generated using your purchased credits, the purchase is considered consumed and is no longer eligible for a refund. To request a refund, contact us at hello@toastgen.org. Refunds will be processed within 5-10 business days to the original payment method.
+            Paid plans grant you a specific number of speech generations as described at the time of purchase. Credits do not expire. You may request a full refund within 14 days of purchase, provided that no speech generations from the purchased pack have been used. Once any speech has been generated using your purchased credits, the purchase is considered consumed and is no longer eligible for a refund. To request a refund, contact us at support@toastgen.org. Refunds will be processed within 5-10 business days to the original payment method.
           </p>
 
           <h2 className="text-xl font-bold font-heading text-charcoal mt-8">6. Intellectual Property</h2>

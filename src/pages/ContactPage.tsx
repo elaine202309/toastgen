@@ -37,7 +37,7 @@ export default function ContactPage() {
               <Mail className="w-6 h-6 text-champagne" />
             </div>
             <h3 className="font-bold font-heading text-charcoal mb-1">Email Us</h3>
-            <p className="text-sm text-charcoal-light">hello@toastgen.org</p>
+            <p className="text-sm text-charcoal-light">support@toastgen.org</p>
           </div>
           <div className="bg-white rounded-2xl p-6 border border-blush-dark/20 text-center">
             <div className="w-12 h-12 rounded-xl bg-blush flex items-center justify-center mx-auto mb-3">

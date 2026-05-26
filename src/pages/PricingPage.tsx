@@ -83,7 +83,7 @@ const faqs = [
   { q: 'Can I upgrade later?', a: 'Absolutely. If you start with Starter and want more, you can purchase Pro or Premium at any time. Your unused credits from a previous purchase will remain available.' },
   { q: 'Do credits expire?', a: 'No. Once you purchase a pack of speech generations, they never expire. Use them whenever you need them.' },
   { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, and PayPal. Payment processing is handled securely by our payment partner.' },
-  { q: 'Is there a refund policy?', a: 'Yes. You may request a full refund within 14 days of purchase, as long as no speech generations from your pack have been used. If you\'ve already generated any speeches, the purchase is considered consumed and is not eligible for a refund. Contact us at hello@toastgen.org to request a refund.' },
+  { q: 'Is there a refund policy?', a: 'Yes. You may request a full refund within 14 days of purchase, as long as no speech generations from your pack have been used. If you\'ve already generated any speeches, the purchase is considered consumed and is not eligible for a refund. Contact us at support@toastgen.org to request a refund.' },
   { q: 'Can I use this for non-wedding events?', a: 'Yes! While optimized for weddings, ToastGen works beautifully for rehearsal dinners, engagement parties, anniversaries, and any celebration that deserves a heartfelt toast.' },
 ];
 
