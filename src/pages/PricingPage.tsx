@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, Sparkles, Zap, Crown, X } from 'lucide-react';
+import { Check, Sparkles, Zap, Crown, X, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -88,11 +89,14 @@ const faqs = [
 
 export default function PricingPage() {
   const navigate = useNavigate();
+  const { token } = useAuth();
   const [showToast, setShowToast] = useState(false);
   const [toastTier, setToastTier] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [checkingOut, setCheckingOut] = useState<string | null>(null);
+  const API_BASE = import.meta.env.VITE_API_URL || '';
 
-  const handleCTA = (tier: typeof tiers[0]) => {
+  const handleCTA = async (tier: typeof tiers[0]) => {
     if (tier.free) {
       navigate('/');
       setTimeout(() => {
@@ -100,9 +104,29 @@ export default function PricingPage() {
       }, 200);
       return;
     }
-    setToastTier(tier.name);
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 4000);
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    setCheckingOut(tier.name);
+    try {
+      const res = await fetch(`${API_BASE}/api/creem/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ tier: tier.name === 'Pro' ? 'pro' : 'premium' }),
+      });
+      const data = await res.json();
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+      } else {
+        setToastTier(tier.name);
+        setShowToast(true);
+      }
+    } catch {
+      setToastTier(tier.name);
+      setShowToast(true);
+    }
+    setCheckingOut(null);
   };
 
   return (
@@ -166,13 +190,15 @@ export default function PricingPage() {
 
               <button
                 onClick={() => handleCTA(tier)}
-                className={`inline-flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer mb-8 ${
+                disabled={checkingOut === tier.name}
+                className={`inline-flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer mb-8 disabled:opacity-60 ${
                   tier.highlight
                     ? 'bg-white text-champagne hover:bg-white/90 shadow-md'
                     : 'bg-charcoal text-white hover:bg-charcoal-light'
                 }`}
               >
-                {tier.cta}
+                {checkingOut === tier.name ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                {checkingOut === tier.name ? 'Redirecting...' : tier.cta}
               </button>
 
               <div className="space-y-3 flex-1">

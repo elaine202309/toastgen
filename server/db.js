@@ -42,6 +42,11 @@ export async function getCredits(id) {
   return Number(await upstashCmd('HGET', `user:${id}`, 'credits')) || 0;
 }
 
+export async function addCredits(id, amount) {
+  const credits = await getCredits(id);
+  await upstashCmd('HSET', `user:${id}`, 'credits', String(credits + amount));
+}
+
 export async function deductCredit(id) {
   const credits = await getCredits(id);
   if (credits > 0) {
