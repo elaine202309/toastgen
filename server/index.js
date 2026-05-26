@@ -13,13 +13,7 @@ const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 app.get('/health', (_req, res) => {
-  res.json({
-    status: 'ok',
-    creem_key: !!process.env.CREEM_API_KEY,
-    creem_secret: !!process.env.CREEM_WEBHOOK_SECRET,
-    creem_pro: process.env.CREEM_PRODUCT_PRO || '(not set)',
-    creem_premium: process.env.CREEM_PRODUCT_PREMIUM || '(not set)',
-  });
+  res.json({ status: 'ok' });
 });
 
 // Auth routes
