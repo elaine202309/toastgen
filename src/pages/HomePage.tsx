@@ -8,7 +8,7 @@ import RoleSelector from '../components/RoleSelector';
 import SpeechForm from '../components/SpeechForm';
 import SpeechOutput from '../components/SpeechOutput';
 import PhotoGallery from '../components/PhotoGallery';
-import Testimonials from '../components/Testimonials';
+// import Testimonials from '../components/Testimonials';
 import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
@@ -77,7 +77,7 @@ export default function HomePage() {
         </div>
       )}
       <PhotoGallery />
-      <Testimonials />
+{/* <Testimonials /> */}
       <Pricing />
       <FAQ />
       <Footer />
